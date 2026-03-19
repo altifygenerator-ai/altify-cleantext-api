@@ -178,47 +178,87 @@
 </div>
 
  <script>
-let usageCount = localStorage.getItem("usageCount") || 0;
+  // 🔓 Check if user just returned from Stripe
+  if (window.location.search.includes("paid=true")) {
+    localStorage.setItem("paidUser", "true");
 
-document.getElementById("submitBtn").onclick = async function () {
-  const outputBox = document.getElementById("outputText");
+    // Show success message
+    setTimeout(() => {
+      document.getElementById("outputText").innerText =
+        "🎉 Lifetime access unlocked! You now have unlimited usage.";
+    }, 300);
 
-  if (usageCount >= 5) {
-    outputBox.innerText = "Free limit reached. Unlock lifetime access below.";
-    document.getElementById("paywall").style.display = "block";
-    return;
+    // Clean URL
+    window.history.replaceState({}, document.title, "/");
   }
 
-  const text = document.getElementById("inputText").value;
-  const format = document.getElementById("formatType").value;
+  // 📊 Get usage count
+  let usageCount = parseInt(localStorage.getItem("usageCount")) || 0;
 
-  if (!text) {
-    outputBox.innerText = "Please enter some text.";
-    return;
+  // 🚀 Main button logic
+  document.getElementById("submitBtn").onclick = async function () {
+    const outputBox = document.getElementById("outputText");
+
+    // 🚫 Block if limit reached AND not paid
+    if (usageCount >= 5 && !localStorage.getItem("paidUser")) {
+      outputBox.innerText =
+        "Free limit reached. Unlock lifetime access below.";
+      document.getElementById("paywall").style.display = "block";
+      return;
+    }
+
+    const text = document.getElementById("inputText").value;
+    const format = document.getElementById("formatType").value;
+
+    if (!text) {
+      outputBox.innerText = "Please enter some text.";
+      return;
+    }
+
+    outputBox.innerText = "Formatting...";
+
+    try {
+      const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text, format })
+      });
+
+      const data = await res.json();
+      outputBox.innerText = data.output || "No response.";
+
+      // 📈 Increase usage ONLY if not paid
+      if (!localStorage.getItem("paidUser")) {
+        usageCount++;
+        localStorage.setItem("usageCount", usageCount);
+      }
+
+    } catch (err) {
+      outputBox.innerText = "Error processing request.";
+    }
+  };
+
+  // 📋 Copy button
+  document.getElementById("copyBtn").onclick = function () {
+    const text = document.getElementById("outputText").innerText;
+
+    navigator.clipboard.writeText(text);
+
+    this.innerText = "Copied!";
+    setTimeout(() => {
+      this.innerText = "Copy Text";
+    }, 1500);
+  };
+
+  // ✅ Show banner if user is paid
+  if (localStorage.getItem("paidUser")) {
+    document.body.insertAdjacentHTML(
+      "afterbegin",
+      "<div style='text-align:center;padding:8px;background:#D1FAE5;color:#065F46;'>Unlimited Access Enabled</div>"
+    );
   }
-
-  outputBox.innerText = "Formatting...";
-
-  try {
-    const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ text, format })
-    });
-
-    const data = await res.json();
-
-    outputBox.innerText = data.output || "No response.";
-
-    usageCount++;
-    localStorage.setItem("usageCount", usageCount);
-
-  } catch (err) {
-    outputBox.innerText = "Error processing request.";
-  }
-};
 </script>
   <script>
 document.getElementById("copyBtn").onclick = function () {
