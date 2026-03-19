@@ -1,175 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<title>Altify CleanText – Format AI Text Instantly</title>
+  <title>Altify CleanText – Format AI Text for Blogs, Summaries & Social Media</title>
 
-<meta name="description" content="Clean and format AI-generated text instantly. Turn messy ChatGPT output into blogs, summaries, and social content.">
-<meta name="robots" content="index, follow">
+  <meta name="description" content="Clean and format AI-generated text instantly. Turn ChatGPT output into blog posts, summaries, or social media content.">
+  <meta name="keywords" content="AI text formatter, clean AI text, ChatGPT formatting tool, AI writing cleaner">
+  <meta name="robots" content="index, follow">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0b0b0b;
-  color: #eaeaea;
-}
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-.container {
-  max-width: 640px;
-  margin: 60px auto;
-  padding: 20px;
-}
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #F9FAFB;
+      color: #111827;
+    }
 
-h1 {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
 
-.sub {
-  color: #888;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
+    .hero {
+      text-align: center;
+      padding: 80px 0 40px;
+    }
 
-textarea {
-  width: 100%;
-  height: 140px;
-  background: #141414;
-  border: 1px solid #222;
-  border-radius: 8px;
-  padding: 12px;
-  color: #fff;
-  resize: none;
-}
+    h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
 
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
+    .subtext {
+      color: #6B7280;
+      margin-bottom: 24px;
+    }
 
-button {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background: #1f1f1f;
-  color: #fff;
-  cursor: pointer;
-}
+    .btn {
+      background: #2563EB;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-button:hover {
-  background: #2a2a2a;
-}
+    .btn:hover {
+      background: #1D4ED8;
+    }
 
-.primary {
-  background: #ffffff;
-  color: #000;
-}
+    .tool {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
 
-.primary:hover {
-  opacity: 0.9;
-}
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #E5E7EB;
+    }
 
-#output {
-  margin-top: 16px;
-  padding: 14px;
-  background: #141414;
-  border: 1px solid #222;
-  border-radius: 8px;
-  white-space: pre-wrap;
-  min-height: 80px;
-}
+    label {
+      font-size: 14px;
+      color: #6B7280;
+      display: block;
+      margin-bottom: 8px;
+    }
 
-.meta {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #777;
-}
+    textarea {
+      width: 100%;
+      height: 220px;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #E5E7EB;
+      resize: none;
+      font-family: inherit;
+    }
 
-#paywall {
-  display: none;
-  margin-top: 20px;
-  padding: 16px;
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 10px;
-}
+    select {
+      width: 100%;
+      margin-top: 16px;
+      height: 40px;
+      border-radius: 8px;
+    }
 
-.pay-title {
-  font-size: 14px;
-  margin-bottom: 8px;
-}
+    .submit-btn {
+      margin-top: 16px;
+      width: 100%;
+      height: 44px;
+      background: #2563EB;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
 
-.pay-sub {
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 12px;
-}
+    .output {
+      min-height: 220px;
+      background: #F3F4F6;
+      padding: 16px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
 
-.status {
-  font-size: 12px;
-  margin-bottom: 10px;
-}
+    #status {
+      text-align:center;
+      margin-bottom:10px;
+      font-size:14px;
+    }
 
-.banner { color: #4caf50; }
-.warning { color: #ff5252; }
+    #usageDisplay {
+      margin-top:10px;
+      font-size:13px;
+      color:#6B7280;
+    }
 
-/* SEO content (subtle, not ugly) */
-.seo {
-  margin-top: 60px;
-  font-size: 13px;
-  color: #777;
-  line-height: 1.5;
-}
-</style>
+    #paywall {
+      display:none;
+      margin-top:30px;
+      text-align:center;
+    }
+
+    .seo {
+      margin-top:60px;
+      font-size:13px;
+      color:#6B7280;
+      line-height:1.5;
+      text-align:center;
+      max-width:700px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    @media (max-width: 768px) {
+      .tool {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>Altify CleanText</h1>
-  <div class="sub">Format messy AI text into clean content instantly</div>
-
-  <div id="status" class="status"></div>
-
-  <textarea id="inputText" placeholder="Paste AI text..."></textarea>
-
-  <div class="actions">
-    <button class="primary" onclick="formatText()">Format</button>
-    <button onclick="copyText()">Copy</button>
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Altify CleanText</h1>
+    <p class="subtext">
+      Format messy AI text into clean blog posts, summaries, or social content instantly.
+    </p>
   </div>
 
-  <div class="meta" id="usageDisplay"></div>
+  <!-- STATUS -->
+  <div id="status"></div>
 
-  <div id="output"></div>
+  <!-- TOOL -->
+  <div class="tool">
 
+    <!-- INPUT -->
+    <div class="card">
+      <label>Paste AI Text</label>
+      <textarea id="inputText" placeholder="Paste messy AI output here..."></textarea>
+
+      <label style="margin-top:16px;">Format Type</label>
+      <select id="formatType">
+        <option value="blog">Blog Post</option>
+        <option value="summary">Summary</option>
+        <option value="social">Social Post</option>
+      </select>
+
+      <button class="submit-btn" onclick="formatText()">Format Text</button>
+
+      <div id="usageDisplay"></div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="card">
+      <label>Clean Output</label>
+      <div id="output" class="output"></div>
+
+      <button class="submit-btn" style="margin-top:12px;" onclick="copyText()">Copy Output</button>
+    </div>
+
+  </div>
+
+  <!-- PAYWALL -->
   <div id="paywall">
-    <div class="pay-title">
-      Free limit reached
-    </div>
+    <div class="card">
+      <h3>Free limit reached</h3>
+      <p style="color:#6B7280;">
+        Unlock unlimited AI formatting with a one-time payment.
+      </p>
 
-    <div class="pay-sub">
-      Unlock unlimited formatting with a one-time payment
+      <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
+        <button class="btn" style="margin-top:12px;">Unlock Now</button>
+      </a>
     </div>
-
-    <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
-      <button class="primary">Unlock</button>
-    </a>
   </div>
 
 </div>
 
-<!-- SEO (hidden-ish but effective) -->
+<!-- SEO CONTENT (clean + subtle) -->
 <div class="seo">
-  Altify CleanText is an AI text formatter that helps clean up ChatGPT output,
-  restructure messy AI writing, and turn raw text into blog posts, summaries,
-  or social media content instantly.
+  Altify CleanText is an AI text formatter designed to clean up ChatGPT output,
+  restructure messy AI writing, and instantly convert raw text into blog posts,
+  summaries, or social media content.
 </div>
 
 <script>
@@ -206,7 +257,6 @@ function isTrialExpired() {
 
 function updateUI() {
   const usage = getUsage();
-  const status = document.getElementById("status");
 
   document.getElementById("usageDisplay").innerText =
     isPaidUser()
@@ -214,16 +264,17 @@ function updateUI() {
       : `${MAX_FREE - usage} free uses left`;
 
   if (isPaidUser()) {
-    status.innerHTML = '<span class="banner">Unlimited access</span>';
+    document.getElementById("status").innerText = "✅ Unlimited access enabled";
   } else if (isTrialExpired()) {
-    status.innerHTML = '<span class="warning">Trial expired</span>';
+    document.getElementById("status").innerText = "⚠️ Trial expired";
   } else {
-    status.innerHTML = '';
+    document.getElementById("status").innerText = "";
   }
 }
 
 async function formatText() {
   const input = document.getElementById("inputText").value;
+  const type = document.getElementById("formatType").value;
 
   if (!input.trim()) return;
 
@@ -232,6 +283,7 @@ async function formatText() {
   if (!isPaidUser()) {
     if (getUsage() >= MAX_FREE || isTrialExpired()) {
       document.getElementById("paywall").style.display = "block";
+      document.getElementById("paywall").scrollIntoView({ behavior: "smooth" });
       return;
     }
   }
@@ -241,8 +293,13 @@ async function formatText() {
   try {
     const res = await fetch("/api/format", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: input })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text: input,
+        type: type
+      })
     });
 
     const data = await res.json();
@@ -254,7 +311,7 @@ async function formatText() {
 
     updateUI();
 
-  } catch {
+  } catch (err) {
     document.getElementById("output").innerText = "Error formatting text.";
   }
 }
@@ -264,6 +321,7 @@ function copyText() {
   navigator.clipboard.writeText(text);
 }
 
+// Payment unlock
 if (window.location.search.includes("paid=true")) {
   localStorage.setItem("altify_access_key_v1", "active_7821");
   window.history.replaceState({}, document.title, window.location.pathname);
