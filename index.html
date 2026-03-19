@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Altify CleanText – Format AI Text for Blogs, Summaries & Social Media</title>
-
-  <meta name="description" content="Clean and format AI-generated text instantly. Turn ChatGPT output into blog posts, summaries, or social media content.">
-  <meta name="keywords" content="AI text formatter, clean AI text, ChatGPT formatting tool, AI writing cleaner">
+  <!-- SEO -->
+  <title>Altify CleanText – Clean & Format AI Text Instantly</title>
+  <meta name="description" content="Clean and format messy AI-generated text instantly. Turn ChatGPT output into blogs, summaries, and social content.">
+  <meta name="keywords" content="AI text formatter, clean AI text, ChatGPT formatting tool">
   <meta name="robots" content="index, follow">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -29,12 +28,9 @@
     }
 
     .hero {
-  text-align: center;
-  padding: 80px 0 40px;
-  background: #F3F4F6; /* slightly darker than #F9FAFB */
-  border-radius: 12px;
-  margin-bottom: 20px;
-}
+      text-align: center;
+      padding: 80px 0 40px;
+    }
 
     h1 {
       font-size: 48px;
@@ -117,33 +113,17 @@
       white-space: pre-wrap;
     }
 
-    #status {
-      text-align:center;
-      margin-bottom:10px;
-      font-size:14px;
-    }
-
     #usageDisplay {
-      margin-top:10px;
-      font-size:13px;
-      color:#6B7280;
+      text-align: center;
+      margin-top: 16px;
+      font-size: 14px;
+      color: #6B7280;
     }
 
     #paywall {
-      display:none;
-      margin-top:30px;
-      text-align:center;
-    }
-
-    .seo {
-      margin-top:60px;
-      font-size:13px;
-      color:#6B7280;
-      line-height:1.5;
-      text-align:center;
-      max-width:700px;
-      margin-left:auto;
-      margin-right:auto;
+      display: none;
+      margin-top: 24px;
+      text-align: center;
     }
 
     @media (max-width: 768px) {
@@ -155,202 +135,170 @@
         font-size: 36px;
       }
     }
-    select {
-  width: 100%;
-  margin-top: 16px;
-  height: 44px;
-  border-radius: 8px;
-  border: 1px solid #E5E7EB;
-  padding: 0 12px;
-  font-family: inherit;
-  background: white;
-}
   </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <!-- HERO -->
-  <div class="hero">
-    <h1>Altify CleanText</h1>
-    <p class="subtext">
-      Format messy AI text into clean blog posts, summaries, or social content instantly.
-    </p>
-  </div>
-
-  <!-- STATUS -->
-  <div id="status"></div>
-
-  <!-- TOOL -->
-  <div class="tool">
-
-    <!-- INPUT -->
-    <div class="card">
-      <label>Paste AI Text</label>
-      <textarea id="inputText" placeholder="Paste messy AI output here..."></textarea>
-
-      <label style="margin-top:16px;">Format Type</label>
-      <select id="formatType">
-        <option value="blog">Blog Post</option>
-        <option value="summary">Summary</option>
-        <option value="social">Social Post</option>
-      </select>
-
-      <button class="submit-btn" onclick="formatText()">Format Text</button>
-
-      <div id="usageDisplay"></div>
-    </div>
-
-    <!-- OUTPUT -->
-    <div class="card">
-      <label>Clean Output</label>
-      <div id="output" class="output"></div>
-
-      <button class="submit-btn" style="margin-top:12px;" onclick="copyText()">Copy Output</button>
-    </div>
-
-  </div>
-  <div style="text-align:center; margin-top:20px;">
-  <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
-    <button class="btn">Unlock Lifetime Access</button>
-  </a>
-
-  <p style="font-size:12px; color:#6B7280; margin-top:6px;">
-    One-time payment • Lifetime access
-  </p>
-</div>
-
-  <!-- PAYWALL -->
-  <div id="paywall">
-    <div class="card">
-      <h3>Free limit reached</h3>
-      <p style="color:#6B7280;">
-        Unlock unlimited AI formatting with a one-time payment.
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Clean Up Messy AI Text Instantly</h1>
+      <p class="subtext">
+        Altify CleanText turns raw AI output into structured, publish-ready content in seconds.
       </p>
+      <button class="btn">Try It Now</button>
+      <p style="margin-top:12px; font-size:14px; color:#6B7280;">
+        Part of the Altify Accessibility Toolkit
+      </p>
+    </div>
 
+    <!-- TOOL -->
+    <div class="tool">
+
+      <div class="card">
+        <label>Paste your text</label>
+        <textarea id="inputText" placeholder="Paste your messy AI text here..."></textarea>
+
+        <select id="formatType">
+          <option>Blog</option>
+          <option>Summary</option>
+          <option>Social</option>
+        </select>
+
+        <button class="submit-btn" id="submitBtn">Format Text</button>
+      </div>
+
+      <div class="card">
+        <label>Formatted result</label>
+        <div class="output" id="outputText">
+          Your formatted text will appear here
+        </div>
+      </div>
+
+    </div>
+
+    <!-- USAGE DISPLAY -->
+    <div id="usageDisplay"></div>
+
+    <!-- UNLOCK BUTTON -->
+    <div style="text-align:center; margin-top:20px;">
       <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
-        <button class="btn" style="margin-top:12px;">Unlock Now</button>
+        <button class="btn">Unlock Lifetime Access</button>
       </a>
     </div>
+
+    <!-- PAYWALL -->
+    <div id="paywall">
+      <div class="card">
+        <h3>Free limit reached</h3>
+        <p style="color:#6B7280;">
+          Unlock unlimited formatting with a one-time payment.
+        </p>
+
+        <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
+          <button class="btn">Unlock Now</button>
+        </a>
+      </div>
+    </div>
+
   </div>
 
-</div>
+  <script>
+    const MAX_FREE = 5;
+    const TRIAL_DAYS = 3;
 
-<!-- SEO CONTENT (clean + subtle) -->
-<div class="seo">
-  Altify CleanText is an AI text formatter designed to clean up ChatGPT output,
-  restructure messy AI writing, and instantly convert raw text into blog posts,
-  summaries, or social media content.
-</div>
-
-<script>
-const MAX_FREE = 5;
-const TRIAL_DAYS = 3;
-
-function isPaidUser() {
-  return localStorage.getItem("altify_access_key_v1") === "active_7821";
-}
-
-function getUsage() {
-  return parseInt(localStorage.getItem("usageCount") || "0");
-}
-
-function setUsage(count) {
-  localStorage.setItem("usageCount", count);
-}
-
-function getFirstUse() {
-  return parseInt(localStorage.getItem("firstUse") || "0");
-}
-
-function setFirstUse() {
-  if (!localStorage.getItem("firstUse")) {
-    localStorage.setItem("firstUse", Date.now());
-  }
-}
-
-function isTrialExpired() {
-  const first = getFirstUse();
-  if (!first) return false;
-  return (Date.now() - first) > (TRIAL_DAYS * 86400000);
-}
-
-function updateUI() {
-  const usage = getUsage();
-
-  document.getElementById("usageDisplay").innerText =
-    isPaidUser()
-      ? "Unlimited access enabled"
-      : `${MAX_FREE - usage} free uses left`;
-
-  if (isPaidUser()) {
-    document.getElementById("status").innerText = "✅ Unlimited access enabled";
-  } else if (isTrialExpired()) {
-    document.getElementById("status").innerText = "⚠️ Trial expired";
-  } else {
-    document.getElementById("status").innerText = "";
-  }
-}
-
-async function formatText() {
-  const input = document.getElementById("inputText").value;
-  const type = document.getElementById("formatType").value;
-
-  if (!input.trim()) return;
-
-  setFirstUse();
-
-  if (!isPaidUser()) {
-    if (getUsage() >= MAX_FREE || isTrialExpired()) {
-      document.getElementById("paywall").style.display = "block";
-      document.getElementById("paywall").scrollIntoView({ behavior: "smooth" });
-      return;
+    function isPaidUser() {
+      return localStorage.getItem("altify_access_key_v1") === "active_7821";
     }
-  }
 
-  document.getElementById("output").innerText = "Formatting...";
+    function getUsage() {
+      return parseInt(localStorage.getItem("usageCount") || "0");
+    }
 
-  try {
-    const res = await fetch("/api/format", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        text: input,
-        type: type
-      })
-    });
+    function setUsage(count) {
+      localStorage.setItem("usageCount", count);
+    }
 
-    const data = await res.json();
-    document.getElementById("output").innerText = data.result;
+    function getFirstUse() {
+      return parseInt(localStorage.getItem("firstUse") || "0");
+    }
 
-    if (!isPaidUser()) {
-      setUsage(getUsage() + 1);
+    function setFirstUse() {
+      if (!localStorage.getItem("firstUse")) {
+        localStorage.setItem("firstUse", Date.now());
+      }
+    }
+
+    function isTrialExpired() {
+      const first = getFirstUse();
+      if (!first) return false;
+      return (Date.now() - first) > (TRIAL_DAYS * 86400000);
+    }
+
+    function updateUI() {
+      const usage = getUsage();
+
+      document.getElementById("usageDisplay").innerText =
+        isPaidUser()
+          ? "Unlimited access enabled"
+          : `${MAX_FREE - usage} free uses left`;
+    }
+
+    document.getElementById("submitBtn").onclick = async function () {
+      const text = document.getElementById("inputText").value;
+      const format = document.getElementById("formatType").value;
+      const outputBox = document.getElementById("outputText");
+
+      if (!text) {
+        outputBox.innerText = "Please enter some text.";
+        return;
+      }
+
+      setFirstUse();
+
+      if (!isPaidUser()) {
+        if (getUsage() >= MAX_FREE || isTrialExpired()) {
+          document.getElementById("paywall").style.display = "block";
+          document.getElementById("paywall").scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+      }
+
+      outputBox.innerText = "Formatting...";
+
+      try {
+        const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text, format })
+        });
+
+        const data = await res.json();
+        outputBox.innerText = data.output || "No response.";
+
+        if (!isPaidUser()) {
+          setUsage(getUsage() + 1);
+        }
+
+        updateUI();
+
+      } catch (err) {
+        outputBox.innerText = "Error processing request.";
+      }
+    };
+
+    // Payment unlock
+    if (window.location.search.includes("paid=true")) {
+      localStorage.setItem("altify_access_key_v1", "active_7821");
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     updateUI();
-
-  } catch (err) {
-    document.getElementById("output").innerText = "Error formatting text.";
-  }
-}
-
-function copyText() {
-  const text = document.getElementById("output").innerText;
-  navigator.clipboard.writeText(text);
-}
-
-// Payment unlock
-if (window.location.search.includes("paid=true")) {
-  localStorage.setItem("altify_access_key_v1", "active_7821");
-  window.history.replaceState({}, document.title, window.location.pathname);
-}
-
-updateUI();
-</script>
+  </script>
 
 </body>
 </html>
