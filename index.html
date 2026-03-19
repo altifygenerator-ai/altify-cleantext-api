@@ -3,14 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Altify CleanText</title>
 
-  <!-- SEO -->
-  <title>Altify CleanText – Clean & Format AI Text Instantly</title>
-  <meta name="description" content="Clean and format messy AI-generated text instantly. Turn ChatGPT output into blogs, summaries, and social content.">
-  <meta name="keywords" content="AI text formatter, clean AI text, ChatGPT formatting tool">
-  <meta name="robots" content="index, follow">
-
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
@@ -48,12 +42,7 @@
       border: none;
       padding: 12px 24px;
       border-radius: 8px;
-      font-size: 16px;
       cursor: pointer;
-    }
-
-    .btn:hover {
-      background: #1D4ED8;
     }
 
     .tool {
@@ -70,28 +59,18 @@
       border: 1px solid #E5E7EB;
     }
 
-    label {
-      font-size: 14px;
-      color: #6B7280;
-      display: block;
-      margin-bottom: 8px;
-    }
-
     textarea {
       width: 100%;
       height: 220px;
       padding: 16px;
       border-radius: 8px;
       border: 1px solid #E5E7EB;
-      resize: none;
-      font-family: inherit;
     }
 
     select {
       width: 100%;
       margin-top: 16px;
       height: 40px;
-      border-radius: 8px;
     }
 
     .submit-btn {
@@ -110,29 +89,17 @@
       background: #F3F4F6;
       padding: 16px;
       border-radius: 8px;
-      white-space: pre-wrap;
-    }
-
-    #usageDisplay {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 14px;
-      color: #6B7280;
     }
 
     #paywall {
       display: none;
-      margin-top: 24px;
       text-align: center;
+      margin-top: 40px;
     }
 
     @media (max-width: 768px) {
       .tool {
         grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 36px;
       }
     }
   </style>
@@ -140,165 +107,107 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- HERO -->
-    <div class="hero">
-      <h1>Clean Up Messy AI Text Instantly</h1>
-      <p class="subtext">
-        Altify CleanText turns raw AI output into structured, publish-ready content in seconds.
-      </p>
-      <button class="btn">Try It Now</button>
-      <p style="margin-top:12px; font-size:14px; color:#6B7280;">
-        Part of the Altify Accessibility Toolkit
-      </p>
+  <div class="hero">
+    <h1>Clean Up Messy AI Text Instantly</h1>
+    <p class="subtext">Altify CleanText turns raw AI output into structured content.</p>
+  </div>
+
+  <div class="tool">
+
+    <div class="card">
+      <textarea id="inputText" placeholder="Paste your text..."></textarea>
+
+      <select id="formatType">
+        <option>Blog</option>
+        <option>Summary</option>
+        <option>Social</option>
+      </select>
+
+      <button id="submitBtn" class="submit-btn">Format Text</button>
     </div>
 
-    <!-- TOOL -->
-    <div class="tool">
+    <div class="card">
+      <div id="outputText" class="output">Your formatted text will appear here</div>
 
-      <div class="card">
-        <label>Paste your text</label>
-        <textarea id="inputText" placeholder="Paste your messy AI text here..."></textarea>
-
-        <select id="formatType">
-          <option>Blog</option>
-          <option>Summary</option>
-          <option>Social</option>
-        </select>
-
-        <button class="submit-btn" id="submitBtn">Format Text</button>
-      </div>
-
-      <div class="card">
-        <label>Formatted result</label>
-        <div class="output" id="outputText">
-          Your formatted text will appear here
-        </div>
-      </div>
-
-    </div>
-
-    <!-- USAGE DISPLAY -->
-    <div id="usageDisplay"></div>
-
-    <!-- UNLOCK BUTTON -->
-    <div style="text-align:center; margin-top:20px;">
-      <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
-        <button class="btn">Unlock Lifetime Access</button>
-      </a>
-    </div>
-
-    <!-- PAYWALL -->
-    <div id="paywall">
-      <div class="card">
-        <h3>Free limit reached</h3>
-        <p style="color:#6B7280;">
-          Unlock unlimited formatting with a one-time payment.
-        </p>
-
-        <a href="YOUR_STRIPE_PAYMENT_LINK_HERE">
-          <button class="btn">Unlock Now</button>
-        </a>
-      </div>
+      <button id="copyBtn" class="submit-btn">Copy Text</button>
     </div>
 
   </div>
 
-  <script>
-    const MAX_FREE = 5;
-    const TRIAL_DAYS = 3;
+  <div id="paywall">
+    <h2>Unlock Lifetime Access</h2>
+    <button onclick="window.location.href='YOUR_STRIPE_LINK'" class="submit-btn">
+      Unlock for $12
+    </button>
+  </div>
 
-    function isPaidUser() {
-      return localStorage.getItem("altify_access_key_v1") === "active_7821";
+</div>
+
+<script>
+  const ACCESS_KEY = "altify_access_key_v1";
+  const ACCESS_VALUE = "active_7821";
+
+  if (window.location.search.includes("paid=true")) {
+    localStorage.setItem(ACCESS_KEY, ACCESS_VALUE);
+    window.history.replaceState({}, document.title, "/");
+  }
+
+  let usageCount = parseInt(localStorage.getItem("usageCount")) || 0;
+  let firstUse = localStorage.getItem("firstUse");
+
+  if (!firstUse) {
+    firstUse = Date.now();
+    localStorage.setItem("firstUse", firstUse);
+  }
+
+  const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
+
+  function isExpired() {
+    return Date.now() - firstUse > THREE_DAYS;
+  }
+
+  function isPaidUser() {
+    return localStorage.getItem(ACCESS_KEY) === ACCESS_VALUE;
+  }
+
+  document.getElementById("submitBtn").onclick = async function () {
+    const outputBox = document.getElementById("outputText");
+
+    if ((usageCount >= 5 || isExpired()) && !isPaidUser()) {
+      outputBox.innerText = "Free limit reached. Unlock access.";
+      document.getElementById("paywall").style.display = "block";
+      return;
     }
 
-    function getUsage() {
-      return parseInt(localStorage.getItem("usageCount") || "0");
+    const text = document.getElementById("inputText").value;
+    const format = document.getElementById("formatType").value;
+
+    outputBox.innerText = "Formatting...";
+
+    const res = await fetch("/api/format", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text, format })
+    });
+
+    const data = await res.json();
+    outputBox.innerText = data.output;
+
+    if (!isPaidUser()) {
+      usageCount++;
+      localStorage.setItem("usageCount", usageCount);
     }
+  };
 
-    function setUsage(count) {
-      localStorage.setItem("usageCount", count);
-    }
-
-    function getFirstUse() {
-      return parseInt(localStorage.getItem("firstUse") || "0");
-    }
-
-    function setFirstUse() {
-      if (!localStorage.getItem("firstUse")) {
-        localStorage.setItem("firstUse", Date.now());
-      }
-    }
-
-    function isTrialExpired() {
-      const first = getFirstUse();
-      if (!first) return false;
-      return (Date.now() - first) > (TRIAL_DAYS * 86400000);
-    }
-
-    function updateUI() {
-      const usage = getUsage();
-
-      document.getElementById("usageDisplay").innerText =
-        isPaidUser()
-          ? "Unlimited access enabled"
-          : `${MAX_FREE - usage} free uses left`;
-    }
-
-    document.getElementById("submitBtn").onclick = async function () {
-      const text = document.getElementById("inputText").value;
-      const format = document.getElementById("formatType").value;
-      const outputBox = document.getElementById("outputText");
-
-      if (!text) {
-        outputBox.innerText = "Please enter some text.";
-        return;
-      }
-
-      setFirstUse();
-
-      if (!isPaidUser()) {
-        if (getUsage() >= MAX_FREE || isTrialExpired()) {
-          document.getElementById("paywall").style.display = "block";
-          document.getElementById("paywall").scrollIntoView({ behavior: "smooth" });
-          return;
-        }
-      }
-
-      outputBox.innerText = "Formatting...";
-
-      try {
-        const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text, format })
-        });
-
-        const data = await res.json();
-        outputBox.innerText = data.output || "No response.";
-
-        if (!isPaidUser()) {
-          setUsage(getUsage() + 1);
-        }
-
-        updateUI();
-
-      } catch (err) {
-        outputBox.innerText = "Error processing request.";
-      }
-    };
-
-    // Payment unlock
-    if (window.location.search.includes("paid=true")) {
-      localStorage.setItem("altify_access_key_v1", "active_7821");
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-    updateUI();
-  </script>
+  document.getElementById("copyBtn").onclick = function () {
+    const text = document.getElementById("outputText").innerText;
+    navigator.clipboard.writeText(text);
+  };
+</script>
 
 </body>
 </html>
