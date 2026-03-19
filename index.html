@@ -168,35 +168,61 @@
 
   </div>
 
+ <script>
+let usageCount = localStorage.getItem("usageCount") || 0;
+
+document.getElementById("submitBtn").onclick = async function () {
+  const outputBox = document.getElementById("outputText");
+
+  if (usageCount >= 5) {
+    outputBox.innerText = "Free limit reached. Unlock lifetime access below.";
+    document.getElementById("paywall").style.display = "block";
+    return;
+  }
+
+  const text = document.getElementById("inputText").value;
+  const format = document.getElementById("formatType").value;
+
+  if (!text) {
+    outputBox.innerText = "Please enter some text.";
+    return;
+  }
+
+  outputBox.innerText = "Formatting...";
+
+  try {
+    const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text, format })
+    });
+
+    const data = await res.json();
+
+    outputBox.innerText = data.output || "No response.";
+
+    usageCount++;
+    localStorage.setItem("usageCount", usageCount);
+
+  } catch (err) {
+    outputBox.innerText = "Error processing request.";
+  }
+};
+</script>
   <script>
-    document.getElementById("submitBtn").onclick = async function () {
-      const text = document.getElementById("inputText").value;
-      const format = document.getElementById("formatType").value;
-      const outputBox = document.getElementById("outputText");
+document.getElementById("copyBtn").onclick = function () {
+  const text = document.getElementById("outputText").innerText;
 
-      if (!text) {
-        outputBox.innerText = "Please enter some text.";
-        return;
-      }
+  navigator.clipboard.writeText(text);
 
-      outputBox.innerText = "Formatting...";
-
-      try {
-        const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text, format })
-        });
-
-        const data = await res.json();
-        outputBox.innerText = data.output || "No response.";
-      } catch (err) {
-        outputBox.innerText = "Error processing request.";
-      }
-    };
-  </script>
+  this.innerText = "Copied!";
+  setTimeout(() => {
+    this.innerText = "Copy Text";
+  }, 1500);
+};
+</script>
 
 </body>
 </html>
