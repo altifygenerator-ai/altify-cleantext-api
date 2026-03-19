@@ -1,3 +1,18 @@
+// 🔓 Check if user returned from Stripe
+if (window.location.search.includes("paid=true")) {
+  localStorage.setItem("altify_access_key_v1", "active_7821");
+
+  // Optional: show confirmation message
+  setTimeout(() => {
+    const output = document.getElementById("outputText");
+    if (output) {
+      output.innerText = "🎉 Lifetime access unlocked! You now have unlimited usage.";
+    }
+  }, 300);
+
+  // Clean URL (removes ?paid=true)
+  window.history.replaceState({}, document.title, "/");
+}
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
