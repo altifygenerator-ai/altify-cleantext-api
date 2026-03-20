@@ -1,25 +1,10 @@
-// 🔓 Check if user returned from Stripe
-if (window.location.search.includes("paid=true")) {
-  localStorage.setItem("altify_access_key_v1", "active_7821");
-
-  // Optional: show confirmation message
-  setTimeout(() => {
-    const output = document.getElementById("outputText");
-    if (output) {
-      output.innerText = "🎉 Lifetime access unlocked! You now have unlimited usage.";
-    }
-  }, 300);
-
-  // Clean URL (removes ?paid=true)
-  window.history.replaceState({}, document.title, "/");
-}
 export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { text, format } = req.body;
+    const { text, format, mode } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: "No text provided" });
@@ -27,7 +12,25 @@ export default async function handler(req, res) {
 
     let instruction = "";
 
-    if (format === "Blog") {
+    // 🔵 NEW LINKEDIN MODE
+    if (mode === "linkedin") {
+      instruction = `
+Rewrite this into a high-performing LinkedIn post.
+
+- Start with a strong hook (first line)
+- Use short lines
+- Add spacing between ideas
+- Make it sound natural and human
+- Avoid robotic phrasing
+- End with a simple call to action
+
+Text:
+${text}
+`;
+    }
+
+    // 🟢 EXISTING MODES (UNCHANGED)
+    else if (format === "Blog") {
       instruction = "Format this into a clean blog post with headings.";
     } else if (format === "Summary") {
       instruction = "Summarize this into bullet points.";
@@ -45,11 +48,20 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: "gpt-4.1-mini",
-        input: `${instruction}\n\nText:\n${text}`
+        input: [
+          {
+            role: "user",
+            content: `${instruction}\n\nText:\n${text}`
+          }
+        ]
       })
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error?.message || "API error");
+    }
 
     const output =
       data.output?.[0]?.content?.[0]?.text || "No response.";
@@ -57,6 +69,7 @@ export default async function handler(req, res) {
     res.status(200).json({ output });
 
   } catch (error) {
+    console.error("API ERROR:", error);
     res.status(500).json({ error: error.message });
   }
 }
