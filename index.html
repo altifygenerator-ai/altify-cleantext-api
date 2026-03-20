@@ -210,13 +210,12 @@
 </div>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
+ const params = new URLSearchParams(window.location.search);
 
 if (params.get("paid") === "true") {
   localStorage.setItem("isPaid", "true");
 
-  // Optional: clean URL so it doesn't stay ugly
-  window.history.replaceState({}, document.title, "/");
+  window.history.replaceState({}, document.title, window.location.pathname);
 }
   let usageCount = parseInt(localStorage.getItem("usageCount")) || 0;
   const isPaid = localStorage.getItem("isPaid") === "true";
@@ -238,12 +237,15 @@ if (params.get("paid") === "true") {
       return;
     }
 
-   if (usageCount >= 5 && !isPaid) {
+  if (usageCount >= 5 && !isPaid) {
   document.getElementById("paywall").style.display = "block";
   return;
 }
-    if (isPaid) {
-  document.getElementById("paidBadge").style.display = "inline-block";
+   if (isPaid) {
+  const badge = document.getElementById("paidBadge");
+  if (badge) {
+    badge.style.display = "inline-block";
+  }
 }
 
     outputBox.innerText = "Formatting...";
