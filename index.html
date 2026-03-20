@@ -152,6 +152,13 @@
 
       <button class="submit-btn" id="submitBtn">Format Text</button>
     </div>
+    <div id="usageDisplay" style="
+  margin-top:10px;
+  font-size:14px;
+  color:#6B7280;
+">
+  5 uses remaining
+</div>
 
     <!-- OUTPUT -->
     <div class="card">
@@ -169,7 +176,7 @@
     <h2>Free Limit Reached</h2>
     <p>Unlock unlimited usage</p>
 
-    <button onclick="window.location.href='YOUR_STRIPE_LINK'"
+    <button onclick="window.location.href='https://buy.stripe.com/14A8wP6xugdhfItg4p7N600'"
       style="margin-top:16px;background:#2563EB;color:white;padding:12px 24px;border:none;border-radius:8px;">
       Unlock for $12
     </button>
@@ -193,7 +200,7 @@
     Unlock unlimited clean text formatting.
   </p>
 
-  <button onclick="window.location.href='YOUR_STRIPE_LINK'" style="
+  <button onclick="window.location.href='https://buy.stripe.com/14A8wP6xugdhfItg4p7N600'" style="
     background:#2563EB;
     color:white;
     padding:14px 28px;
@@ -240,6 +247,19 @@ if (params.get("paid") === "true") {
   document.getElementById("paywall").style.display = "block";
   return;
 }
+    const usageDisplay = document.getElementById("usageDisplay");
+
+function updateUsageUI() {
+  if (isPaid) {
+    usageDisplay.innerText = "Unlimited access enabled";
+    return;
+  }
+
+  const remaining = Math.max(0, 5 - usageCount);
+  usageDisplay.innerText = remaining + " uses remaining";
+}
+
+updateUsageUI();
    if (isPaid) {
   const badge = document.getElementById("paidBadge");
   if (badge) {
@@ -262,7 +282,7 @@ if (params.get("paid") === "true") {
       outputBox.innerText = data.output || "No response.";
 
       usageCount++;
-      localStorage.setItem("usageCount", usageCount);
+      localStorage.setItem("usageCount", usageCount);updateUsageUI();
 
     } catch (err) {
       outputBox.innerText = "Error processing request.";
