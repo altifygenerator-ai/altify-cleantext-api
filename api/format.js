@@ -4,7 +4,10 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { text, format, mode } = req.body;
+   const body = req.body || {};
+const text = body.text;
+const format = body.format;
+const mode = body.mode;
 
     if (!text) {
       return res.status(400).json({ error: "No text provided" });
