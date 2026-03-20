@@ -241,40 +241,43 @@
   </button>
 </div>
 
-  <script>
-    document.getElementById("submitBtn").onclick = async function () {
-      const text = document.getElementById("inputText").value;
-      const format = document.getElementById("formatType").value;
-      const outputBox = document.getElementById("outputText");
+ <script>
+  document.getElementById("submitBtn").onclick = async function () {
+  const text = document.getElementById("inputText").value;
+  const format = document.getElementById("formatType").value;
+  const outputBox = document.getElementById("outputText");
 
-      if (!text) {
-        outputBox.innerText = "Please enter some text.";
-        return;
-      }
+  if (!text) {
+    outputBox.innerText = "Please enter some text.";
+    return;
+  }
 
-      outputBox.innerText = "Formatting...";
+  outputBox.innerText = "Formatting...";
 
-      try {
-        const res = await fetch("/api/format", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text, format })
-        });
+  try {
+    const res = await fetch("/api/format", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text, format })
+    });
 
-        const data = await res.json();
-        outputBox.innerText = data.output || "No response.";
-      } catch (err) {
-        if (!res.ok) {
-  outputBox.innerText = "API Error: " + JSON.stringify(data);
-  return;
-}
+    const data = await res.json();
 
-outputBox.innerText = data.output || "No response.";
-      }
-    };
-  </script>
+    // ✅ ERROR HANDLING (NOW res EXISTS)
+    if (!res.ok) {
+      outputBox.innerText = "API Error: " + JSON.stringify(data);
+      return;
+    }
 
+    outputBox.innerText = data.output || "No response.";
+
+  } catch (err) {
+    console.error("FRONTEND ERROR:", err);
+    outputBox.innerText = "Error: " + err.message;
+  }
+};
+<script>
 </body>
 </html>
