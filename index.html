@@ -124,6 +124,19 @@
       Turn raw AI output into structured, publish-ready content in seconds.
     </p>
   </div>
+  <div id="paidBadge" style="
+  display:none;
+  margin-top:16px;
+  display:inline-block;
+  background:#DCFCE7;
+  color:#166534;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:500;
+">
+  ✓ Unlimited Access Enabled
+</div>
 
   <div class="tool">
 
@@ -175,11 +188,38 @@
       Instead of manually editing AI output, you can quickly transform it into clear, structured content.
     </p>
   </div>
+  <div style="margin-top:60px;text-align:center;">
+  <h2 style="margin-bottom:12px;">Need more than 5 uses?</h2>
+  <p style="color:#6B7280;margin-bottom:20px;">
+    Unlock unlimited clean text formatting.
+  </p>
+
+  <button onclick="window.location.href='YOUR_STRIPE_LINK'" style="
+    background:#2563EB;
+    color:white;
+    padding:14px 28px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+  ">
+    Unlock Full Access
+  </button>
+</div>
 
 </div>
 
 <script>
+  const params = new URLSearchParams(window.location.search);
+
+if (params.get("paid") === "true") {
+  localStorage.setItem("isPaid", "true");
+
+  // Optional: clean URL so it doesn't stay ugly
+  window.history.replaceState({}, document.title, "/");
+}
   let usageCount = parseInt(localStorage.getItem("usageCount")) || 0;
+  const isPaid = localStorage.getItem("isPaid") === "true";
 
   const input = document.getElementById("inputText");
   const counter = document.getElementById("charCount");
@@ -198,10 +238,13 @@
       return;
     }
 
-    if (usageCount >= 5) {
-      document.getElementById("paywall").style.display = "block";
-      return;
-    }
+   if (usageCount >= 5 && !isPaid) {
+  document.getElementById("paywall").style.display = "block";
+  return;
+}
+    if (isPaid) {
+  document.getElementById("paidBadge").style.display = "inline-block";
+}
 
     outputBox.innerText = "Formatting...";
 
