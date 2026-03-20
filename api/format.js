@@ -68,8 +68,9 @@ ${text}
 
     res.status(200).json({ output });
 
-  } catch (error) {
-    console.error("API ERROR:", error);
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+  console.error("FRONTEND ERROR:", err);
+  outputBox.innerText = "Error: " + err.message;
+}
   }
 }
