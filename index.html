@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Altify CleanText</title>
+
+  <title>Clean AI Text Instantly | Altify CleanText Tool</title>
+  <meta name="description" content="Turn messy AI-generated text into clean, readable content instantly. Free AI text cleaner and formatter.">
+  <meta name="keywords" content="AI text cleaner, fix ChatGPT output, AI text formatter">
+  <meta name="robots" content="index, follow">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -61,6 +65,12 @@
       resize: none;
     }
 
+    .counter {
+      font-size: 12px;
+      color: #6B7280;
+      margin-top: 6px;
+    }
+
     select {
       width: 100%;
       margin-top: 16px;
@@ -85,6 +95,22 @@
       padding: 16px;
       border-radius: 8px;
     }
+
+    .copy-btn {
+      margin-top: 12px;
+      background: #111827;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #paywall {
+      display: none;
+      margin-top: 40px;
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -94,13 +120,17 @@
 
   <div class="hero">
     <h1>Clean Up Messy AI Text Instantly</h1>
-    <p class="subtext">Turn raw AI output into clean, readable content in seconds.</p>
+    <p class="subtext">
+      Turn raw AI output into structured, publish-ready content in seconds.
+    </p>
   </div>
 
   <div class="tool">
 
+    <!-- INPUT -->
     <div class="card">
       <textarea id="inputText" placeholder="Paste your messy AI text here..."></textarea>
+      <div class="counter" id="charCount">0 characters</div>
 
       <select id="formatType">
         <option>Blog</option>
@@ -111,18 +141,21 @@
       <button class="submit-btn" id="submitBtn">Format Text</button>
     </div>
 
+    <!-- OUTPUT -->
     <div class="card">
       <div class="output" id="outputText">
         Your formatted text will appear here
       </div>
+
+      <button class="copy-btn" id="copyBtn">Copy</button>
     </div>
 
   </div>
 
   <!-- PAYWALL -->
-  <div id="paywall" style="display:none;margin-top:40px;text-align:center;">
+  <div id="paywall">
     <h2>Free Limit Reached</h2>
-    <p>Unlock unlimited access</p>
+    <p>Unlock unlimited usage</p>
 
     <button onclick="window.location.href='YOUR_STRIPE_LINK'"
       style="margin-top:16px;background:#2563EB;color:white;padding:12px 24px;border:none;border-radius:8px;">
@@ -130,13 +163,33 @@
     </button>
   </div>
 
+  <!-- SEO CONTENT -->
+  <div style="max-width:800px;margin:40px auto 0;">
+    <h2>AI Text Cleaner</h2>
+    <p>
+      This tool helps you clean up messy AI-generated text instantly, making it readable and ready to publish.
+    </p>
+
+    <h2>Why Use This Tool?</h2>
+    <p>
+      Instead of manually editing AI output, you can quickly transform it into clear, structured content.
+    </p>
+  </div>
+
 </div>
 
 <script>
   let usageCount = parseInt(localStorage.getItem("usageCount")) || 0;
 
+  const input = document.getElementById("inputText");
+  const counter = document.getElementById("charCount");
+
+  input.addEventListener("input", () => {
+    counter.innerText = input.value.length + " characters";
+  });
+
   document.getElementById("submitBtn").onclick = async function () {
-    const text = document.getElementById("inputText").value;
+    const text = input.value;
     const format = document.getElementById("formatType").value;
     const outputBox = document.getElementById("outputText");
 
@@ -171,11 +224,15 @@
       outputBox.innerText = "Error processing request.";
     }
   };
+
+  document.getElementById("copyBtn").onclick = function () {
+    const text = document.getElementById("outputText").innerText;
+    navigator.clipboard.writeText(text);
+  };
 </script>
 
 </body>
 </html>
-  </script>
 
 </body>
 </html>
