@@ -266,7 +266,12 @@
         const data = await res.json();
         outputBox.innerText = data.output || "No response.";
       } catch (err) {
-        outputBox.innerText = "Error processing request.";
+        if (!res.ok) {
+  outputBox.innerText = "API Error: " + JSON.stringify(data);
+  return;
+}
+
+outputBox.innerText = data.output || "No response.";
       }
     };
   </script>
