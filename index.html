@@ -139,6 +139,8 @@
 
  <div class="tool">
 
+  <div class="tool">
+
   <!-- INPUT -->
   <div class="card">
     <textarea id="inputText" placeholder="Paste your messy AI text here..."></textarea>
@@ -154,28 +156,37 @@
   </div>
 
   <!-- OUTPUT -->
-  <div class="card" style="position:relative;">
-
-    <!-- Usage Counter (top-right) -->
-    <div id="usageDisplay" style="
-      position:absolute;
-      top:16px;
-      right:16px;
-      font-size:12px;
-      color:#6B7280;
-      background:#F3F4F6;
-      padding:4px 8px;
-      border-radius:6px;
-    ">
-      5 uses remaining
-    </div>
+  <div class="card">
 
     <!-- Output -->
-    <div class="output" id="outputText" style="padding-top:36px;">
+    <div class="output" id="outputText">
       Your formatted text will appear here
     </div>
 
-    <button class="copy-btn" id="copyBtn">Copy</button>
+    <!-- Bottom Row -->
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:12px;
+    ">
+
+      <!-- Usage Counter (LEFT) -->
+      <div id="usageDisplay" style="
+        font-size:12px;
+        color:#6B7280;
+        background:#F3F4F6;
+        padding:4px 8px;
+        border-radius:6px;
+      ">
+        5 uses remaining
+      </div>
+
+      <!-- Copy Button (RIGHT) -->
+      <button class="copy-btn" id="copyBtn">Copy</button>
+
+    </div>
+
   </div>
 
 </div>
