@@ -255,7 +255,7 @@
       outputBox.innerText = "Formatting...";
 
       try {
-        const res = await fetch("https://altifygenerator-ai-altify-cleantext.vercel.app/", {
+        const res = await fetch("https://altify-cleantext-api.vercel.app/api/format", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
